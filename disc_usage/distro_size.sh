@@ -3,7 +3,7 @@
 NUM_ARGS=$#
 
 # Define the log file path
-LOG_FILE="/var/log/wsl_disk_usage.log"
+LOG_FILE="/var/log/distro_disk_usage.log"
 
 # Get the current date and time in ISO 8601 format
 TIMESTAMP=$(date --iso-8601=seconds)
