@@ -8,22 +8,6 @@ LOG_FILE="/var/log/distro_disk_usage.log"
 # Get the current date and time in ISO 8601 format
 TIMESTAMP=$(date --iso-8601=seconds)
 
-# Spinner function
-# spinner() {
-#     spin[0]="-"
-#     spin[1]="\\"
-#     spin[2]="|"
-#     spin[3]="/"
-
-#     while kill -0 $1 2>/dev/null; do
-#         for i in "${spin[@]}"; do
-#             echo -ne "\b$i"
-#             sleep 0.1
-#         done
-#         echo -ne "\b"
-#     done
-# }
-
 if [[ NUM_ARGS -eq 0 ]]; then
     echo "Please provide an argument. Possible arguments:
     --check, -c
@@ -85,7 +69,7 @@ else
         DISK_USAGE_GB=$(sudo du -sh --exclude=/mnt / 2>/dev/null | cut -f1)
 
         # Create header row if file doesn't exist or is 0 bytes
-        if [[ ! -e LOG_FILE || ! -s LOG_FILE ]]; then
+        if [[ ! -e ${LOG_FILE} || ! -s ${LOG_FILE} ]]; then
             sudo echo "Timestamp,Disk usage (GB),Message" > "${LOG_FILE}"
             echo "Added header row to log file"
         fi
