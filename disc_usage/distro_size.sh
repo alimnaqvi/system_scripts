@@ -8,6 +8,21 @@ LOG_FILE="/var/log/distro_disk_usage.log"
 # Get the current date and time in ISO 8601 format
 TIMESTAMP=$(date --iso-8601=seconds)
 
+get_disk_usage() {
+    DISK_USAGE_GB=$(sudo du -sh --exclude=/mnt / 2>/dev/null | cut -f1) 
+}
+
+log_disk_usage() {
+    # Create header row if file doesn't exist or is 0 bytes
+    if [[ ! -e ${LOG_FILE} || ! -s ${LOG_FILE} ]]; then
+        sudo echo "Timestamp,Disk usage (GB),Message" > "${LOG_FILE}"
+        echo "Added header row to log file"
+    fi
+
+    sudo echo "${TIMESTAMP},${DISK_USAGE_GB},${MESSAGE}" >> "${LOG_FILE}"
+    echo "Logged distro size of ${DISK_USAGE_GB} to the log file ${LOG_FILE}"
+}
+
 if [[ NUM_ARGS -eq 0 ]]; then
     echo "Please provide an argument. Possible arguments:
     --check, -c
@@ -31,7 +46,7 @@ else
     if [[ $1 == "--check" || $1 == "-c" ]]; then
         # check and display the current size (without logging)
         echo "Calculating disk usage (this may take a while)..."
-        DISK_USAGE_GB=$(sudo du -sh --exclude=/mnt / 2>/dev/null | cut -f1)
+        get_disk_usage
         echo "Distro size is currently ${DISK_USAGE_GB}"
         exit
     
@@ -66,16 +81,22 @@ else
         fi
 
         echo "Calculating disk usage (this may take a while)..."
-        DISK_USAGE_GB=$(sudo du -sh --exclude=/mnt / 2>/dev/null | cut -f1)
+        get_disk_usage
+        log_disk_usage
 
-        # Create header row if file doesn't exist or is 0 bytes
-        if [[ ! -e ${LOG_FILE} || ! -s ${LOG_FILE} ]]; then
-            sudo echo "Timestamp,Disk usage (GB),Message" > "${LOG_FILE}"
-            echo "Added header row to log file"
+    elif [[ $1 == "--cron" ]]; then
+        # script was called by cron (run at reboot); log only if no log on this day
+        CURRENT_DATE=$(date +%Y-%m-%d)
+        LAST_RUN_DATE=$(cat ${LOG_FILE} | tail --lines 1 | cut -c1-10)
+        MESSAGE="logged by cron"
+
+        if [[ CURRENT_DATE != LAST_RUN_DATE ]]; then
+            echo "Logging disk usage with cron"
+            get_disk_usage
+            log_disk_usage
         fi
 
-        sudo echo "${TIMESTAMP},${DISK_USAGE_GB},${MESSAGE}" >> "${LOG_FILE}"
-        echo "Logged distro size of ${DISK_USAGE_GB} to the log file ${LOG_FILE}"
+        exit
 
     else
         echo "Unknown argument: $1"
@@ -83,4 +104,3 @@ else
     fi
 
 fi
-
