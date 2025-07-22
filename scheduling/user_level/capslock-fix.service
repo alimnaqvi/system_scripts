@@ -1,0 +1,6 @@
+[Unit]
+Description=Fix capslock delay by changing current keyboard map
+
+[Service]
+Type=oneshot
+ExecStart=/home/ali/system_scripts/desktop_settings/fix-capslock-delay.sh 

@@ -84,14 +84,14 @@ else
         get_disk_usage
         log_disk_usage
 
-    elif [[ $1 == "--cron" ]]; then
-        # script was called by cron (run at reboot); log only if no log on this day
+    elif [[ $1 == "--cron" || $1 == "--systemd" ]]; then
+        # script was called by cron/systemd (run at reboot); log only if no log on this day
         CURRENT_DATE=$(date +%Y-%m-%d)
         LAST_RUN_DATE=$(cat ${LOG_FILE} | tail --lines 1 | cut -c1-10)
-        MESSAGE="logged by cron"
+        MESSAGE="logged by ${1:2}" # remove first two characters (hyphens)
 
         if [[ CURRENT_DATE != LAST_RUN_DATE ]]; then
-            echo "Logging disk usage with cron"
+            echo "Logging disk usage with cron/systemd" # not required but no harm in leaving it in
             get_disk_usage
             log_disk_usage
         fi

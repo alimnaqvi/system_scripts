@@ -1,0 +1,6 @@
+[Unit]
+Description=Check distro size once a day
+
+[Service]
+Type=oneshot
+ExecStart=/home/ali/system_scripts/disc_usage/distro_size.sh --systemd

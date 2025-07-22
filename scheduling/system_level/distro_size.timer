@@ -1,0 +1,8 @@
+[Unit]
+Description=Run distro_size.service 2 minutes after the user logs in
+
+[Timer]
+OnStartupSec=2min
+
+[Install]
+WantedBy=timers.target
