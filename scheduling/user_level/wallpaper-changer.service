@@ -1,0 +1,6 @@
+[Unit]
+Description=Change wallpapers every 15 minutes
+
+[Service]
+Type=oneshot
+ExecStart=/home/ali/system_scripts/desktop_settings/GNOME/wallpaper-changer.sh
