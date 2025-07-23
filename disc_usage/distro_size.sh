@@ -23,7 +23,7 @@ log_disk_usage() {
     echo "Logged distro size of ${DISK_USAGE_GB} to the log file ${LOG_FILE}"
 }
 
-if [[ NUM_ARGS -eq 0 ]]; then
+if [[ ${NUM_ARGS} -eq 0 ]]; then
     echo "Please provide an argument. Possible arguments:
     --check, -c
         check and display the current size (without logging)
@@ -36,7 +36,7 @@ if [[ NUM_ARGS -eq 0 ]]; then
     exit
 # Else will only execute if any arguments were provided
 else
-    if [[ NUM_ARGS -gt 1 ]]; then
+    if [[ ${NUM_ARGS} -gt 1 ]]; then
         if [[ $1 != "--log" && $1 != "-l" ]]; then
             echo "Invalid number of arguments."
             exit 1
@@ -66,13 +66,13 @@ else
 
     elif [[ $1 == "--log" || $1 == "-l" ]]; then
         # log the current size to log file; handle optional message
-        if [[ NUM_ARGS -gt 1 ]]; then
+        if [[ ${NUM_ARGS} -gt 1 ]]; then
             if [[ $2 != "--message" && $2 != "-m" ]]; then
                 echo "Unkown argument: $2"
                 exit 1
             fi
 
-            if [[ NUM_ARGS -ne 3 ]]; then
+            if [[ ${NUM_ARGS} -ne 3 ]]; then
                 echo "Please provide the log message as one argument."
                 exit 1
             fi
@@ -90,7 +90,7 @@ else
         LAST_RUN_DATE=$(cat ${LOG_FILE} | tail --lines 1 | cut -c1-10)
         MESSAGE="logged by ${1:2}" # remove first two characters (hyphens)
 
-        if [[ CURRENT_DATE != LAST_RUN_DATE ]]; then
+        if [[ ${CURRENT_DATE} != ${LAST_RUN_DATE} ]]; then
             echo "Logging disk usage with cron/systemd" # not required but no harm in leaving it in
             get_disk_usage
             log_disk_usage
