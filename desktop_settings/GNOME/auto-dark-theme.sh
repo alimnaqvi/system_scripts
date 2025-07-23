@@ -3,9 +3,10 @@
 CURRENT_HOUR=$(date +%H)
 
 if [[ ${CURRENT_HOUR} -ge 6 && ${CURRENT_HOUR} -lt 20 ]]; then
-    THEME="prefer-light"
+    THEME="light"
 else
-    THEME="prefer-dark"
+    THEME="dark"
 fi
 
-gsettings set org.gnome.desktop.interface color-scheme ${THEME}
+gsettings set org.gnome.desktop.interface color-scheme "prefer-${THEME}"
+gsettings set org.gnome.desktop.interface gtk-theme "Pop-${THEME}"

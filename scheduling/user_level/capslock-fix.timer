@@ -1,5 +1,5 @@
 [Unit]
-Description=Run capslock-fix.service 30 seconds after the user logs in
+Description=Run capslock-fix.service 15 seconds after the user logs in
 
 [Timer]
 OnStartupSec=30

@@ -3,7 +3,7 @@ Description=Run auto-dark-theme.service 5 seconds after the user logs in, and at
 
 [Timer]
 OnStartupSec=5
-OnCalendar=06:01,20:01
+OnCalendar=06,20:01
 
 [Install]
 WantedBy=timers.target

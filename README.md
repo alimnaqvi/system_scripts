@@ -12,7 +12,7 @@ A script that changes the GNOME color scheme depending on the time of day (dark 
 
 ## Wallpaper changer
 
-A slideshow of wallpapers that changes every 15 minutes and differentiates between wallpapers for dark vs. light theme.
+A slideshow of wallpapers that changes every 15 minutes (randomly selects from a given directory) and differentiates between wallpapers for dark vs. light theme.
 
 ## Disk usage
 
