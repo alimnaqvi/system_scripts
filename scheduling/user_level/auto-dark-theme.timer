@@ -1,0 +1,9 @@
+[Unit]
+Description=Run auto-dark-theme.service 5 seconds after the user logs in, and at 8pm and 6am
+
+[Timer]
+OnStartupSec=5
+OnCalendar=06:01,20:01
+
+[Install]
+WantedBy=timers.target

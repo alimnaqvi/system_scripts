@@ -22,6 +22,8 @@ Add the following line to the crontab (remember to replace `<path-to-this-repo>`
 @reboot <path-to-this-repo>/disc_usage/distro_size.sh --cron
 ```
 
+The crontab method is rather outdated, and it is generally better to use systemd instead. It requires more steps. So I have written the script `set_all_schedules.sh` to automate some of it.
+
 ## Fix CAps LOck delay
 
 Linux desktop environments, such as GNOME, often have this "feature" enabled by default that adds a delay to prevent accidental Caps Lock activation. For fast typists, it's a disaster because YOu WIll BE TYping LIke THis.
@@ -29,3 +31,5 @@ Linux desktop environments, such as GNOME, often have this "feature" enabled by 
 `fix-capslock-delay.sh` script takes the *current* keyboard map, surgically replaces the faulty Caps Lock definition with a good one, and then immediately loads that fixed map back into the system.
 
 But a reboot will completely undo its changes, which is why it needs to be run at startup. A service like `cron` or, the better method, `systemd` can be used to always run this script on startup. Alternatively, Linux desktop GUIs often provide a front-end to easily specify tasks/scripts/applications that should be run at startup.
+
+I have included a script `set_all_schedules.sh` to automatically set systemd tasks for the scripts in this repo that need scheduling.

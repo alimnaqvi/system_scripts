@@ -1,0 +1,6 @@
+[Unit]
+Description=Switch to dark theme between 8pm and 6am
+
+[Service]
+Type=oneshot
+ExecStart=/home/ali/system_scripts/desktop_settings/GNOME/auto-dark-theme.sh

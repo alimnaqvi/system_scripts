@@ -35,8 +35,8 @@ unset FILE
 sudo systemctl daemon-reload
 for FILE in "${FILES_SYSTEM_LEVEL[@]}"; do
     if [[ ${FILE} == *".timer" ]]; then
-        echo "Attempting to start service: ${FILE}"
-        sudo systemctl start ${FILE}
+        echo "Attempting to enable service: ${FILE}"
+        sudo systemctl enable --now ${FILE}
         echo "$(sudo systemctl status ${FILE})"
     fi
 done
@@ -46,8 +46,8 @@ unset FILE
 sudo systemctl daemon-reload
 for FILE in "${FILES_USER_LEVEL[@]}"; do
     if [[ ${FILE} == *".timer" ]]; then
-        echo "Attempting to start service: ${FILE}"
-        systemctl --user start ${FILE}
+        echo "Attempting to enable service: ${FILE}"
+        systemctl --user enable --now ${FILE}
         echo "$(systemctl --user status ${FILE})"
     fi
 done
