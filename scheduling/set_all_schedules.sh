@@ -16,8 +16,8 @@ FILES_USER_LEVEL=($(ls ${SCRIPT_DIR}/user_level/))
 # System-level
 for FILE in "${FILES_SYSTEM_LEVEL[@]}"; do
     FILE_PATH="${SCRIPT_DIR}/system_level/${FILE}"
-    echo "Attempting to create symlink for file ${FILE_PATH} in directory ${SYSTEMD_PATH_SYSTEM_LEVEL}"
-    sudo ln -s ${FILE_PATH} "${SYSTEMD_PATH_SYSTEM_LEVEL}${FILE}"
+    echo "Attempting to copy file ${FILE_PATH} to directory ${SYSTEMD_PATH_SYSTEM_LEVEL}"
+    sudo cp ${FILE_PATH} "${SYSTEMD_PATH_SYSTEM_LEVEL}${FILE}"
     unset FILE_PATH
 done
 unset FILE
@@ -35,7 +35,7 @@ unset FILE
 sudo systemctl daemon-reload
 for FILE in "${FILES_SYSTEM_LEVEL[@]}"; do
     if [[ ${FILE} == *".timer" ]]; then
-        echo "Attempting to enable service: ${FILE}"
+        echo "Attempting to enable timer: ${FILE}"
         sudo systemctl enable --now ${FILE}
         echo "$(sudo systemctl status ${FILE})"
     fi
@@ -46,7 +46,7 @@ unset FILE
 sudo systemctl daemon-reload
 for FILE in "${FILES_USER_LEVEL[@]}"; do
     if [[ ${FILE} == *".timer" ]]; then
-        echo "Attempting to enable service: ${FILE}"
+        echo "Attempting to enable timer: ${FILE}"
         systemctl --user enable --now ${FILE}
         echo "$(systemctl --user status ${FILE})"
     fi
