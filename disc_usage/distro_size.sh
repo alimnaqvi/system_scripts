@@ -19,7 +19,7 @@ log_disk_usage() {
         echo "Added header row to log file"
     fi
 
-    sudo echo "${TIMESTAMP},${DISK_USAGE_GB},${MESSAGE}" >> "${LOG_FILE}"
+    sudo echo "${TIMESTAMP},${DISK_USAGE_GB},\"${MESSAGE}\"" >> "${LOG_FILE}"
     echo "Logged distro size of ${DISK_USAGE_GB} to the log file ${LOG_FILE}"
 }
 
@@ -61,14 +61,15 @@ else
             echo "(Log file is empty)"
         fi
 
-        sudo column -t -s, ${LOG_FILE}
+        # sudo column -t -s, ${LOG_FILE}
+        python3 /home/ali/system_scripts/disc_usage/distro_size_show.py
         exit
 
     elif [[ $1 == "--log" || $1 == "-l" ]]; then
         # log the current size to log file; handle optional message
         if [[ ${NUM_ARGS} -gt 1 ]]; then
             if [[ $2 != "--message" && $2 != "-m" ]]; then
-                echo "Unkown argument: $2"
+                echo "Unknown argument: $2"
                 exit 1
             fi
 
