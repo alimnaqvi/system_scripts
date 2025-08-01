@@ -2,8 +2,7 @@
 Description=Run capslock-fix.service 15 seconds after the user logs in
 
 [Timer]
-OnStartupSec=30
+OnActiveSec=10
 
 [Install]
 WantedBy=timers.target
-
