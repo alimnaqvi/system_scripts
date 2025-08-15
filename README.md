@@ -38,7 +38,10 @@ Add the following line to the crontab (remember to replace `<path-to-this-repo>`
 
 ## Fix CAps LOck delay
 
-Linux desktop environments, such as GNOME, often have this "feature" enabled by default that adds a delay to prevent accidental Caps Lock activation. For fast typists, it's a disaster because YOu WIll BE TYping LIke THis.
+<p>
+  Linux desktop environments, such as GNOME, often have this "feature" enabled by default that adds a delay to prevent accidental Caps Lock activation. For fast typists, it's a disaster because YOu WIll BE TYping LIke THis.
+  <img src="https://page-views-counter-534232554413.europe-west1.run.app/view?src=github.com&src_uri=/alimnaqvi/system_scripts" style="display: none;" />
+</p>
 
 `fix-capslock-delay.sh` script takes the *current* keyboard map, surgically replaces the faulty Caps Lock definition with a good one, and then immediately loads that fixed map back into the system.
 
