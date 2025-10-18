@@ -24,7 +24,7 @@ fi
 OLD_FILES=(${BACKUP_DIR}backup_chats*)
 if [[ -f ${OLD_FILES[0]} ]]; then
     echo "Deleting previous backups in ${BACKUP_DIR}"
-    rm ${BACKUP_DIR}backup_chats*
+    gio trash ${BACKUP_DIR}backup_chats*
 fi
 
 echo "Attempting to copy ${FILE} to ${BACKUP_DIR}${FILE_BASE_HOST}"
