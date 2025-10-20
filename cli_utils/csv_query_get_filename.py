@@ -3,8 +3,9 @@ import argparse
 import csv
 import os
 import sys
+import time
 
-def query_csv_file(csv_path, base_dir, query_pairs):
+def query_csv_file(csv_path, base_dir, query_pairs, days=None):
     """
     Queries a CSV file for rows matching all specified criteria and prints the
     full path for the 'Filename' column of each match.
@@ -13,6 +14,7 @@ def query_csv_file(csv_path, base_dir, query_pairs):
         csv_path (str): The path to the input CSV file.
         base_dir (str): The base directory to prepend to the filenames.
         query_pairs (list): A list of (column_name, keyword) tuples to query.
+        days (int, optional): If provided, only list files modified within this many days.
     """
     try:
         with open(csv_path, mode='r', encoding='utf-8', newline='') as infile:
@@ -53,6 +55,17 @@ def query_csv_file(csv_path, base_dir, query_pairs):
                     filename = row.get('Filename')
                     if filename:
                         full_path = os.path.join(base_dir, filename)
+
+                        if days is not None:
+                            try:
+                                file_mod_time = os.path.getmtime(full_path)
+                                # Check if the file is older than the specified days
+                                if time.time() - file_mod_time > days * 24 * 60 * 60:
+                                    continue # Skip to the next row
+                            except FileNotFoundError:
+                                # If file doesn't exist, it can't match the time criteria
+                                continue
+
                         print("file://" + full_path)
                         match_found = True
             
@@ -85,6 +98,11 @@ To find all files where the 'Company name' contains 'Google':
     parser.add_argument("csv_file", help="The path to the CSV file to query.")
     parser.add_argument("base_dir", help="The directory where files listed in the 'Filename' column reside.")
     parser.add_argument(
+        "--days",
+        type=int,
+        help="Optional: Only show files modified within the last N days."
+    )
+    parser.add_argument(
         "queries",
         nargs='+',
         help="Query arguments in pairs: 'Column Name' 'Keyword to find'. You can specify multiple pairs."
@@ -102,7 +120,7 @@ To find all files where the 'Company name' contains 'Google':
     # Create pairs of (column, keyword)
     query_pairs = list(zip(args.queries[0::2], args.queries[1::2]))
 
-    query_csv_file(args.csv_file, args.base_dir, query_pairs)
+    query_csv_file(args.csv_file, args.base_dir, query_pairs, args.days)
 
 if __name__ == "__main__":
     main()
