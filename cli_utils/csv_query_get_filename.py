@@ -99,7 +99,7 @@ To find all files where the 'Company name' contains 'Google':
     parser.add_argument("base_dir", help="The directory where files listed in the 'Filename' column reside.")
     parser.add_argument(
         "--days",
-        type=int,
+        type=float,
         help="Optional: Only show files modified within the last N days."
     )
     parser.add_argument(
