@@ -2,10 +2,15 @@
 
 DOWNLOADS_DIR=~/Downloads/
 BACKUP_DIR=~/my_projects/LLMs/big-AGI-backups/
+shopt -s nullglob
 TO_BACK_UP=(${DOWNLOADS_DIR}backup_chats*)
+shopt -u nullglob
 
 if [[ ${#TO_BACK_UP[@]} -gt 1 ]]; then
     echo "${DOWNLOADS_DIR} contains more than one file. Please ensure there is only one file to back up"
+    exit 1
+elif [[ ${#TO_BACK_UP[@]} -eq 0 ]]; then
+    echo "No files found in ${DOWNLOADS_DIR} to back up. Please ensure there is a file named backup_chats* in ${DOWNLOADS_DIR}"
     exit 1
 fi
 
